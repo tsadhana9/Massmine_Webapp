@@ -1,0 +1,140 @@
+{% extends "analysis/analysis_tabs.html" %}
+{% block tabs_body_block %}
+    {% if user.is_authenticated %}
+        <style>
+            /* .custom-control-label:before{
+                background-color:red;
+            } */
+            .custom-checkbox .custom-control-label::before {
+                border-color: black;
+                border-radius: 0%;
+            }
+            .custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+                background-color:black;
+                border-radius: 0;
+            }
+            .custom-radio .custom-control-label::before {
+                border-color: black;
+            }
+            .custom-radio .custom-control-input:checked~.custom-control-label::before{
+                background-color:black;
+            }
+            /* .custom-control-input:active~.custom-control-label::before{
+                background-color:yellow;
+            } */
+        
+            /** focus shadow pinkish **/
+            /* .custom-checkbox .custom-control-input:focus~.custom-control-label::before{
+                box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(255, 0, 247, 0.25); 
+            } */
+        </style>
+        <form method="post" action="{% url 'analysis:export_clicked' %}" target="_self">
+            {% csrf_token %}
+            <div class="bg-light p-3">
+                <div class="col-3">
+                    <h6>Select Attributes</h6>
+                    <hr class="mt-0"/>
+                </div>
+                
+                <div class="row d-flex justify-content-around mt-4">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_all" value="all">
+                        <label class="custom-control-label" for="attr_check_all">All</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_username" value="screen_name">
+                        <label class="custom-control-label" for="attr_check_username">Username</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_tweets" value="text">
+                        <label class="custom-control-label" for="attr_check_tweets">Tweets</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_timestamp" value="created_at">
+                        <label class="custom-control-label" for="attr_check_timestamp">Timestamp</label>
+                    </div>
+                    <div class="custom-control custom-checkbox d-none">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_sentiments" value="sentiments">
+                        <label class="custom-control-label" for="attr_check_sentiments">Sentiments</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_hashtags" value="hashtags">
+                        <label class="custom-control-label" for="attr_check_hashtags">Hashtags</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_urls" value="url">
+                        <label class="custom-control-label" for="attr_check_urls">URLs</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="check_attributes[]" class="custom-control-input" id="attr_check_location" value="country">
+                        <label class="custom-control-label" for="attr_check_location">Location</label>
+                    </div>
+                </div>
+
+                <div class="col-3 mt-5">
+                    <h6>Select Formats</h6>
+                    <hr class="mt-0"/>
+                </div>
+                <div class="row d-flex justify-content-around mt-4">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="check_formats" class="custom-control-input" id="attr_check_pdf" value="pdf">
+                        <label class="custom-control-label" for="attr_check_pdf">PDF</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="check_formats" class="custom-control-input" id="attr_check_csv" value="csv">
+                        <label class="custom-control-label" for="attr_check_csv">CSV</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="check_formats" class="custom-control-input" id="attr_check_json" value="json">
+                        <label class="custom-control-label" for="attr_check_json">JSON</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="check_formats" class="custom-control-input" id="attr_check_xlsx" value="xlsx">
+                        <label class="custom-control-label" for="attr_check_xlsx">XLSX</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="check_formats" class="custom-control-input" id="attr_check_spss" value="spss">
+                        <label class="custom-control-label" for="attr_check_spss">SPSS</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="check_formats" class="custom-control-input" id="attr_check_xml" value="xml">
+                        <label class="custom-control-label" for="attr_check_xml">XML</label>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-5 mb-4">
+                    <button id="btnExports" type="submit" class="btn btn-success btn-sm py-2 px-5" style="border-radius: 0;" disabled><small>EXPORT DATA</small></button>
+                </div>
+            </div>
+            
+         </form>   
+	{% else %}
+		<h2>Must be logged in to view an anlysis.</h2>
+	{% endif %}
+{% endblock %}
+{% block custom_js_block_2 %}
+	<script>
+		$("#attr_check_all").change(function(){
+            if(this.checked){
+                $('#attr_check_username, #attr_check_tweets, #attr_check_timestamp, #attr_check_sentiments, #attr_check_hashtags, #attr_check_urls, #attr_check_location')
+                    .prop('checked', false);
+            }
+        });
+        $('#attr_check_username, #attr_check_tweets, #attr_check_timestamp, #attr_check_sentiments, #attr_check_hashtags, #attr_check_urls, #attr_check_location')
+        .change(function(){
+            if(this.checked){
+                $("#attr_check_all").prop('checked', false);
+            }
+        });
+
+        $('input[name="check_attributes[]"], input[name="check_formats"]')
+        .change(function(){
+            $('#btnExports').prop('disabled', 
+                                    $('input[name="check_attributes[]"]:checked').length === 0 ||
+                                    $('input[name="check_formats"]:checked').length === 0 );
+        });
+
+        $(function() {
+            $('#btnExports').prop('disabled', true);
+        });
+	</script>
+{% endblock %}

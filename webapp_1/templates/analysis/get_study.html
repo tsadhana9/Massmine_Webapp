@@ -1,0 +1,68 @@
+{% extends "analysis/analysis_tabs.html" %}
+{% block tabs_body_block %}
+<style>
+#table_tweets {
+	font-size: 0.75rem;
+}
+#table_tweets thead > tr > th {
+	border-top: 0!important;
+}
+#table_tweets tbody > tr > td,
+#table_tweets thead > tr > th {
+	white-space: nowrap;
+}
+/* Datatables to make use of Font Awesome */
+table.dataTable thead th {
+    position: relative;
+    background-image: none !important;
+}
+ 
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    display: block;
+    font-family: FontAwesome;
+}
+
+/* Tell browser, what icon from font awesome list to use */
+table.dataTable thead th.sorting:after {
+    content: "\f0dc";
+    color: #ddd;
+    font-size: 0.8em;
+    padding-top: 0.12em;
+}
+table.dataTable thead th.sorting_asc:after {
+    content: "\f0de";
+}
+table.dataTable thead th.sorting_desc:after {
+    content: "\f0dd";
+}
+th > a{
+	color: gray!important;
+}
+</style>
+{% load render_table from django_tables2 %}
+	{% render_table current_study %}
+{% endblock %}
+
+{% block custom_js_block_2 %}
+	<script>
+		var table_tweets = $('#table_tweets').DataTable({
+			searching: false,
+			paging: false,
+			bLengthChange: false,
+			language: {search: "", searchPlaceholder: "Search..."},
+			scrollY: "400px",
+			scrollX: true,
+			scrollCollapse: true
+			// dom: 'rt'+"<'row'<'col-12 col-4'i><'col-12 col-4'f><'col-12 col-4'p>>"
+		});
+		$('#table_tweets').addClass('table-bordered table-hover');
+		$('.dataTables_scrollHeadInner').children("table:first").addClass('text-nowrap');
+		// $('#table_tweets').parent().addClass('table-responsive');
+		$('#table_tweets > thead > tr > th > a').addClass('text-dark');
+	</script>
+{% endblock %}

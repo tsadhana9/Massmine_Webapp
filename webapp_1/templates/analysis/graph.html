@@ -1,0 +1,59 @@
+{% extends "analysis/analysis_tabs.html" %}
+{% block tabs_body_block %}
+	{% if user.is_authenticated %}
+	{% if graph %}
+	<style>
+		.btn-custom-1 {
+			font-size:1rem; 
+			border-radius: 15px!important;
+			color: black;
+		}
+	</style>
+	<div class="row col-12">
+		<div class="col-8">
+			{{ graph|safe }}
+		</div>
+		<div class="col-3 offset-1">
+			<blockquote class="blockquote">Select Analysis</blockquote>
+			<button type="button" class="btn btn-outline-dark btn-lg btn-block mt-3 py-3 btn-custom-1 {% if request.session.analysis_type|safe == 'sentiment' %} active {% endif %}" onclick="redirect_to_graph('sentiment')">
+				Sentiment Analysis
+			</button>
+			<button type="button" class="btn btn-outline-dark btn-lg btn-block mt-3 py-3 btn-custom-1 {% if request.session.analysis_type|safe == 'freq_words' %} active {% endif %}" onclick="redirect_to_graph('freq_words')">
+				Frequently Used Words
+			</button>
+			<button type="button" class="btn btn-outline-dark btn-lg btn-block mt-3 py-3 btn-custom-1 {% if request.session.analysis_type|safe == 'date' %} active {% endif %}" onclick="redirect_to_graph('date')">
+				Date Analysis
+			</button>
+			<blockquote class="blockquote mt-4">Select Visualization</blockquote>
+
+			<!-- <button type="button" class="btn btn-outline-dark btn-lg btn-block mt-3 px-5 py-2 d-flex justify-content-between btn-graph-icon no-pointer">
+				<span style="padding-top: 10px;">Scatter Plot</span>
+				<span class="align-middle" style="font-size:2rem;"><i class="fas fa-braille"></i></span>
+			</button>
+			<div type="button" style="font-size:1rem; border-radius: 15px!important;" class="btn btn-outline-dark btn-lg btn-block mt-3 px-5 py-2 d-flex justify-content-between btn-graph-icon">
+				<span style="padding-top: 10px;">Box Plot</span>
+				<span class="align-middle" style="font-size:2rem;"><i class="fas fa-bacon"></i></span>
+			</div> -->
+			<form method="post" action="{% url 'analysis:graphs' request.session.analysis_type %}" target="_self">
+			{% csrf_token %}	
+				<div class="btn-group" role="group" aria-label="Visualization">
+					<button type="submit" name="graph_type" value="bar" class="btn btn-lg btn-outline-dark {% if request.session.graph_type|safe == 'bar' %} active {% endif %}" data-toggle="tooltip" data-placement="bottom" title="Bar Graph"><span class="align-middle" style="font-size:2rem;"><i class="fas fa-chart-bar"></i></span></button>
+					<button type="submit" name="graph_type" value="scatter" class="btn btn-lg btn-outline-dark {% if request.session.graph_type|safe == 'scatter' %} active {% endif %}" data-toggle="tooltip" data-placement="bottom" title="Scatter Plot"><span class="align-middle" style="font-size:2rem;"><i class="fas fa-braille"></i></span></button>
+					<button type="submit" name="graph_type" value="line" class="btn btn-lg btn-outline-dark {% if request.session.graph_type|safe == 'line' %} active {% endif %}" data-toggle="tooltip" data-placement="bottom" title="Line Graph"><span class="align-middle" style="font-size:2rem;"><i class="fas fa-chart-line"></i></span></button>
+				</div>
+			</form>
+		</div>
+	</div>
+	{% endif %}
+	{% else %}
+		<h2>Must be logged in to view an anlysis.</h2>
+	{% endif %}
+{% endblock %}
+{% block custom_js_block_2 %}
+	<script>
+		function redirect_to_graph(graph_type) {
+            var base_url = "{% url 'analysis:graphs' '' %}"
+            window.location.href = base_url.substring(0, base_url.length -1) + graph_type;
+        }
+	</script>
+{% endblock %}

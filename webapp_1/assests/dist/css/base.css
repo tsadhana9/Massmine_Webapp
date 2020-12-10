@@ -1,0 +1,139 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400);
+body {
+    font-size: .875rem;
+    min-width: 770px;
+    font-family: lato!important;
+  }
+  
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-30 { font-size: 30px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+  
+  /*
+   * Sidebar
+   */
+
+
+  .sidebar-sticky > ul {
+    /* just height for demo */
+    height: 95vh;
+    /* become a flex-container */
+    /* its children will be flex-items */
+    display: flex;
+    /* move flex-items in column */
+    flex-direction: column;
+  }
+  
+  @media only screen and (max-height: 550px){
+    .sidebar-sticky > ul {
+      height: 520px;
+    }
+  }
+
+  /* add maximum available margin-top to last child */
+  /* this can be replaced with any selector like nth-child */
+  /* and will move flex-items to the bottom if any available vertical space */
+  .sidebar-sticky > ul > :nth-last-child(4) {
+    margin-top: auto;
+  }
+  
+
+
+
+/* testing */
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100; /* Behind the navbar */
+    padding: 0; /* Height of navbar */
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  }
+  
+  .sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: 100vh;
+    /* height: calc(100vh - 48px); */
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  }
+  
+  @supports ((position: -webkit-sticky) or (position: sticky)) {
+    .sidebar-sticky {
+      position: -webkit-sticky;
+      position: sticky;
+    }
+  }
+  
+  .sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+    font-size: 2rem;
+  }
+  
+  .sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #999;
+  }
+  
+  .sidebar .nav-link.active {
+    color: #007bff;
+  }
+  
+  .sidebar .nav-link:hover .feather,
+  .sidebar .nav-link.active .feather {
+    color: inherit;
+  }
+  
+  .sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+  }
+  
+  /*
+   * Navbar
+   */
+  
+  .navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, .25);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+  }
+  
+  .navbar .navbar-toggler {
+    top: .25rem;
+    right: 1rem;
+  }
+  
+  .navbar .form-control {
+    padding: .75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+  }
+  
+  .form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+  }
+  
+  .form-control-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+  }
+  
+  .main-div-width {
+    width: calc(100% - 70px);
+  }
+  .tooltip {
+    pointer-events:none;
+    margin-left:100px
+  }
