@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Massmine-For-The-Masses</title>
+  <!--Some CSS goes here-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="./flex.css">
+
+<style>
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
+
+.square {
+		height: 100px;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 10;
+  width: 120px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+  border-color: white;
+  text-decoration: none;
+  height: -1%;
+}
+ 
+.sidebar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.content {
+  margin-left: 120px;
+  padding: 10px 16px;
+  height: 1000px;
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 200px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+</style>
+
+</head>
+  <body>
+   <main>
+      <div class="container sidebar">
+        <ul class="nav navbar-nav">
+
+{# Home/Register #}
+          
+         {# Some stuff you only see when logged in #}
+          {% if user.is_authenticated %}
+          <li><a class="square" href="{% url 'twitter_index' %}">
+          					<center><img src="http://www.massmine.org/images/massmine-logo-square.png" alt="Massmine-logo" width="60" height="60"></center>
+          				</a>
+          </li>          
+          <li><a class="navbar-link square" href="{% url 'analysis:analysis'%}">
+          				<center><img src="https://bit.ly/36w8TZE" alt="Data" width="60" height="60">
+          							Analysis
+          				</center>
+          				</a>
+          </li>
+          <li><a class="square" href="{% url 'query:request_page'%}">
+          				<center><img src="https://bit.ly/2PM6Nik" alt="Data" width="70" height="60">
+          							Query
+          				</center>
+          				</a>
+          </li>
+          <li><a class="navbar-link square" href="{% url 'admin:index' %}">
+          				<center><img src="https://bit.ly/2PMdxwE" alt="Data" width="70" height="60">
+          				Admin</center></a>
+          <li>
+          <li><a class="navbar-link square" href="{% url 'accounts:edit_user_profile' %}">
+          				<center><img src="https://bit.ly/2PJLAWl" alt="Data" width="70" height="60">
+          				Edit Profile</center></a>
+          </li>
+	         <li><a class="navbar-link square" href="{% url 'accounts:change_password' %}">
+	         				<center><img src="https://bit.ly/32e6WNZ" alt="Data" width="40" height="40">
+	         				Change Password</center></a>
+	         </li>
+          <li><a class="navbar-link square" href="{% url 'accounts:user_logout' %}">
+          				<center><img src="https://bit.ly/2CePzSQ" alt="Data" width="40" height="50">
+          				Logout</center></a>
+          </li>
+          
+	  {% else %}
+          <li><a class="navbar-link square" href="{% url 'accounts:register' %}">Register</a></li>     
+	         <li><a class="navbar-link square" href="{% url 'accounts:user_login' %}">Login</a></li>
+	         <li><a class="navbar-link square" href="{% url 'password_reset' %}">Forgot Passsword</a></li>
+          {% endif %}
+
+</ul>    
+      </div>
+
+    <div class="container">
+    {% block body_block %}
+    {% endblock %}
+    </div>
+    </main>
+  </body>
+</html>
