@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block body_block %}
+{# <!DOCTYPE html> #}
+{# <html> #}
+{# <body> #}
+    <script>
+    var customElementId = 1;
+    var arrHead = new Array(); // array for header.
+    arrHead = ['','DropDown', 'Input Attribute'];
+
+    // now, add a new to the TABLE.
+    function addRow() {
+
+        customElementId ++;
+
+        var empTab = document.getElementById('empTable');
+
+        var rowCnt = empTab.rows.length;   // table row count.
+        var tr = empTab.insertRow(rowCnt); // the table row.
+        tr = empTab.insertRow(rowCnt);
+        tr.id = Math.random();
+
+        for (var c = 0; c < arrHead.length; c++) {
+            var td = document.createElement('td'); // table definition.
+            td = tr.insertCell(c);
+
+            if (c == 0) {      // the first column.
+                // add a button in every new row in the first column.
+                var span = document.createElement('span');
+                span.innerHTML = 'Remove';
+                var image = document.createElement('input');
+
+                // set input attributes.
+                image.setAttribute('type', 'image');
+                image.setAttribute('value', 'Remove');
+                image.setAttribute('width', '18.33');
+                image.setAttribute('height', '18.33');
+                image.setAttribute('padding-left', '1px'); image.setAttribute('src','https://www.flaticon.com/svg/static/icons/svg/561/561179.svg');
+
+                // add button's 'onclick' event.
+                image.setAttribute('onclick', 'removeRow(this); return false;');
+span.appendChild(image);
+                td.appendChild(span);
+            }
+            else if ( c == 1)
+            {
+
+            console.log('entered');
+           var values = ["AND", "OR"];
+
+  var select = document.createElement("select");
+  select.name = "customElementDD" + customElementId;
+  select.id = "pets"
+
+  for (const val of values) {
+    var option = document.createElement("option");
+    option.value = val;
+    option.text = val.charAt(0).toUpperCase() + val.slice(1);
+    select.appendChild(option);
+  }
+
+  var label = document.createElement("label");
+  label.innerHTML = "Choose your pets: "
+  label.htmlFor = "pets";
+  td.appendChild(select);
+            }
+            else {
+                // 2nd, 3rd and 4th column, will have textbox.
+                var ele = document.createElement('input');
+                ele.setAttribute('type', 'text');
+                ele.setAttribute('value', '');
+                ele.setAttribute('name','customElementInput' + customElementId);
+
+                td.appendChild(ele);
+            }
+        }
+        return false;
+    }
+
+    // delete TABLE row function.
+    function removeRow(oButton) {
+        var empTab = document.getElementById('empTable');
+        var selectedRow = oButton.parentNode.parentNode.parentNode.id;
+        document.getElementById(selectedRow).remove();
+        //empTab.deleteRow(oButton.parentNode.parentNode.rowIndex); // button -> td -> tr.
+        return false;
+    }
+
+    </script>
+<div class="container content">
+  <div class="jumbotron">
+    <h3>Enter a Search Term</h3>
+        <form method="POST" action="{% url 'query:make_query' %}">
+            {% csrf_token %}
+            <label for="keyword">Keyword:</label>
+            <input type="text" name="keyword" placeholder="Ex. Computer Science">
+                   <p></p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select  name="mydropdown1">
+                <option value="AND"> AND </option>
+                <option value="OR"> OR </option>
+            </select>
+            <!-- <label for="keyword1">Keyword1</label> -->
+
+            <input type="text" name="keyword2" placeholder="Ex. Computer Science">
+                   <p></p>
+            <span> Add <input onclick="addRow(); return false;" type="image" src="https://www.flaticon.com/svg/static/icons/svg/25/25340.svg" alt="plus sign here" width="18.33" height="18.33" /></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <select name="mydropdown2">
+                <option value="OR"> OR </option>
+                <option value="AND"> AND </option>
+            </select>
+            <!-- <label for="keyword1">Keyword1</label> -->
+            <input type="text" name="keyword3" placeholder="Ex. Computer Science">
+                   <p></p>
+            <table id="empTable">
+                <div id="cont"></div>
+            </table>
+              <!-- the container to add the TABLE -->
+            <p></p>
+            <label for="count">Count:</label>
+            <input type="text" name="count" placeholder="Ex. 500">
+            <p></p>
+            <label for="From">From:</label>
+            <!--<label type="date" name="From" placeholder="Date&time"></label> -->
+            <!-- <input type="date" id="From" name = "From" value="Date&Time" min="2018-01-01" max="2030-12-31"> -->
+            <input type="date" id="Date&Time" name="From"> &nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="To">To:</label>
+            <input type="date" id="Date&Time" name="To">
+            <!--<p></p>-->
+           <!-- <label for="To">To:</label>-->
+            <!-- <input type="datetime-local" id="To" name="To">-->
+            <p></p>
+            <label for="Location">Location:</label>
+            <input type="text" name="location" placeholder="Enter Location(Ex:City)">
+            <p></p>
+            <input type="submit" value="Submit Query">
+        </form>
+	</div>
+</div>
+{# </body> #}
+{# </html> #}
+{% endblock %}

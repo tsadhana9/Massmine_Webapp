@@ -1,0 +1,32 @@
+<html>
+<head>
+<!-- Some CSS goes here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<ul class="nav navbar-nav">
+			</ul>
+		</div>
+	</nav>
+</body>
+<center>
+	<img src="http://www.massmine.org/images/massmine-logo-square.png" alt="Massmine-logo" width="100" height="120">
+	<h5>Log in to save a search and download data <br>
+	If you don't have an account, Please use the sign up link to create one!</h5>
+<h3>Login</h3>
+<form method="post">
+	{% csrf_token %}
+<div class="jumbotron">         
+	<label for="username">Username:</label>
+	<input type="text" name="username" placeholder="Username"><br><br>
+	<label for="password">Password:</label>
+	<input type="password" name="password" placeholder="Password"><br><br>
+	<input type="submit" name="" value="Login"><br><br>
+	<a href="{% url 'password_reset' %}">Forgot Username/Password?</a><br><br>
+	<a href="{% url 'accounts:register' %}">Sign Up</a>
+</form>
+</div>
+</center>
+</html>

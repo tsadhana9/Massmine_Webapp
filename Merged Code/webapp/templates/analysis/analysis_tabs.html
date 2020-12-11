@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block custom_css_block %}
+    <style>
+        
+        body {
+            font-family: Lato;
+        }
+        i.fab.fa-twitter {
+            display: inline-block;
+            border-radius: 60px;
+            box-shadow: 0px 0px 2px #1DA1F2;
+            padding: 0.5em 0.6em;
+        }
+        .bg-twitter {
+            background-color: #40A2F2;
+            font-size: 1.25rem;
+        }
+        #query_name{
+            font-family: lato;
+            font-size: 1rem;;
+            letter-spacing: 0.75px;
+        }
+        .table-tabs td,
+        .table-tabs th {
+            border-top: 0;
+            border-bottom: 2px solid LightGray;
+        }
+        .table-tabs tr {
+            font-size: 1rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        .table-tabs tr td.active {
+            border-bottom: 3px solid #1DA1F2;
+        }
+        .no-pointer {
+            cursor: auto;
+        }
+    </style>
+    {% endblock %}
+    {% block body_block %}
+    <nav class="navbar navbar-light bg-white mt-3">
+        <div class="bg-white"><i class="fab fa-twitter bg-twitter text-white"></i><span class="lead text-muted pl-3" id="query_name">Untitled</span></div>
+        <form method="post" action="{% url 'analysis:view_tweets' %}" target="_self" class="form-inline ml-auto my-2 my-lg-0"> {# This is not done yet. Need to change action URL. Just kept dummy now #}
+            {% csrf_token %}
+            <button class="btn btn-dark my-2 px-4 py-2 my-sm-0" style="border-radius: 0px; font-family: lato;" type="submit">Edit Query</button>
+        </form>
+    </nav>
+    <div class="row my-3">
+        <div class="table-responsive col-12">
+            <table class="table table-tabs">
+                <tr class="text-center lead">
+                    <td onclick="redirect_to('view_tweets')" id="tab-1" class="{{ request.session.tab_1_class|safe}}" >View Raw Data</td>
+                    <td onclick="redirect_to('graphs')" id="tab-2" class="{{ request.session.tab_2_class|safe}}" >Visualize Data</td>
+                    <td onclick="redirect_to('exports')" id="tab-3" class="{{ request.session.tab_3_class|safe}}" >Export Data</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    {% block tabs_body_block %}
+    {% endblock %}
+    {% block custom_js_block %}
+    <script>
+        function redirect_to(tabname) {
+            if(tabname === 'view_tweets'){
+                window.location.href = "{% url 'analysis:view_tweets' %}";
+            }
+            else if(tabname === 'graphs'){
+                window.location.href = "{% url 'analysis:graphs' 'sentiment' %}";
+            }
+            else if(tabname === 'exports'){
+                window.location.href = "{% url 'analysis:exports' %}";
+            }
+            else {
+                window.location.href = "{% url 'analysis:view_tweets' %}";
+            }
+        }
+    </script>
+    {% endblock %}
+    
+{% endblock %}
